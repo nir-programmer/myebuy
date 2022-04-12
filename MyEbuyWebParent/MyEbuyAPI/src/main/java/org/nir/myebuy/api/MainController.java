@@ -1,4 +1,4 @@
-package org.nir.myebuy;
+package org.nir.myebuy.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
