@@ -10,5 +10,6 @@
   <modules>
   <module>MyEbuyCommon</module>
   <module>MyEbuyWebParent</module>
+  <module>MyEbuyBackEndAPI</module>
   </modules>
 </project>
