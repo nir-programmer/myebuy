@@ -20,61 +20,61 @@ import org.springframework.test.annotation.Rollback;
 @Rollback(false)
 public class RoleRepositioryTests 
 {
-	@Autowired
-	private TestEntityManager entityManager;
-	
-	@Autowired 
-	private RoleRepository repository; 
-	
-	@Test
-	public void testSmoke()
-	{
-		assertThat(entityManager).isNotNull();
-		assertThat(this.repository).isNotNull();
-		
-
-	}
-	
-	
-	
-	@Test
-	public void testGetAllRoles()
-	{
-		int expectedNumberOfRoles = 5; 
-		List<Role> roles ; 
-		
-		//ACT
-		roles = this.repository.findAll();
-		int actualNumberOfRoles = roles.size();
-		
-		//ASSERT
-		assertThat(roles).isNotNull();
-		assertThat(expectedNumberOfRoles).isEqualTo(actualNumberOfRoles);
-		
-		roles.stream()
-		.map(role -> role.getId())
-		.forEach(System.out::println);
-	}
-	
-	@Test
-	public void testCreateRole()
-	{
-		//GIVEN 
-		Role role = new Role("TestRole", "Test Role to be deleted!!");
-		
-		//ACT 
-		Role savedRole = this.repository.save(role); 
-		
-		//ASSERT
-		assertThat(savedRole).isNotNull();
-		
-		System.out.println(savedRole + " with id " + savedRole.getId()); 
-		
-		
-	}
-	
-	
-	
+//	@Autowired
+//	private TestEntityManager entityManager;
+//	
+//	@Autowired 
+//	private RoleRepository repository; 
+//	
+//	@Test
+//	public void testSmoke()
+//	{
+//		assertThat(entityManager).isNotNull();
+//		assertThat(this.repository).isNotNull();
+//		
+//
+//	}
+//	
+//	
+//	
+//	@Test
+//	public void testGetAllRoles()
+//	{
+//		int expectedNumberOfRoles = 5; 
+//		List<Role> roles ; 
+//		
+//		//ACT
+//		roles = this.repository.findAll();
+//		int actualNumberOfRoles = roles.size();
+//		
+//		//ASSERT
+//		assertThat(roles).isNotNull();
+//		assertThat(expectedNumberOfRoles).isEqualTo(actualNumberOfRoles);
+//		
+//		roles.stream()
+//		.map(role -> role.getId())
+//		.forEach(System.out::println);
+//	}
+//	
+//	@Test
+//	public void testCreateRole()
+//	{
+//		//GIVEN 
+//		Role role = new Role("TestRole", "Test Role to be deleted!!");
+//		
+//		//ACT 
+//		Role savedRole = this.repository.save(role); 
+//		
+//		//ASSERT
+//		assertThat(savedRole).isNotNull();
+//		
+//		System.out.println(savedRole + " with id " + savedRole.getId()); 
+//		
+//		
+//	}
+//	
+//	
+//	
 	
 	
 
