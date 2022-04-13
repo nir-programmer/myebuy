@@ -42,8 +42,8 @@ public class User {
 	//This field can be null and will be mapped with the same name of the property 
 	private boolean enabled; 
 	
-	@Transient
-	private Integer ratings = 3;
+//	@Transient
+//	private Integer ratings = 3;
 
 	
 	/**
@@ -80,9 +80,6 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
-
-
 
 
 
@@ -180,9 +177,9 @@ public class User {
 
 
 	
-	public Integer getRatings() {
-		return ratings;
-	}
+//	public Integer getRatings() {
+//		return ratings;
+//	}
 
 
 
@@ -193,10 +190,10 @@ public class User {
 	}
 
 
-
-	public void setRatings(Integer ratings) {
-		this.ratings = ratings;
-	}
+//
+//	public void setRatings(Integer ratings) {
+//		this.ratings = ratings;
+//	}
 
 
 

@@ -92,11 +92,12 @@ public class UserRepositoryTests
 //		
 //	}
 //	
+	//OK
 	@Test
 	public void testListAllUsers()
 	{
 		//GIVEN
-		Integer expectedNumberOfUsers = 2; 
+		Integer expectedNumberOfUsers = 23; 
 		
 		//WHEN
 		List<User> actualUsers = (List<User>) this.userRepository.findAll(); 
@@ -236,29 +237,30 @@ public class UserRepositoryTests
 	
 	}
 	
-//	@Test
-//	public void testCreateNewUserWithTwoRolesWithImgURL()
-//	{
-//		//ARRANGE
-//		User shalom = new User("shalom@gmail.com", "shalom2022", "Shalom", "Itzhak"); 
-//		Role roleEditor = new Role(3); 
-//		Role roleAssistance = new Role(5); 
-//		
-//		//ASSERT
-//		shalom.addRole(roleAssistance);
-//		shalom.addRole(roleEditor);
-//		shalom.setPhotos("assets/images/users/2/Allada Pavan.png");
-//		
-//		User savedUser = this.userRepository.save(shalom); 
-//		
-//		assertThat(savedUser).isNotNull();
-//		//assertThat(savedUser.getId()).isEqualTo(2);
-//		assertThat(savedUser.getFirstName()).isEqualTo("Shalom");
-//		assertThat(savedUser.getRoles().size()).isEqualTo(2);
-//		
-//		
-//	}
-//	
+	@Test
+	public void testCreateNewUserWithTwoRolesWithImgURL()
+	{
+		//ARRANGE
+		User shalom = new User("shalom@gmail.com", "shalom2022", "Shalom", "Itzhak"); 
+		Role roleEditor = new Role(3); 
+		Role roleAssistance = new Role(5); 
+		
+		//ASSERT
+		shalom.addRole(roleAssistance);
+		shalom.addRole(roleEditor);
+		shalom.setPhotos("assets/images/users/2/Allada Pavan.png");
+		
+		User savedUser = this.userRepository.save(shalom); 
+		
+		assertThat(savedUser).isNotNull();
+		//assertThat(savedUser.getId()).isEqualTo(2);
+		assertThat(savedUser.getFirstName()).isEqualTo("Shalom");
+		assertThat(savedUser.getRoles().size()).isEqualTo(2);
+		
+		System.out.println(">>SavedUser:" + savedUser); 
+		
+	}
+	
 	
 	
 	/**
@@ -290,6 +292,7 @@ public class UserRepositoryTests
 	@Test
 	public void testCreateUserWithImageUrl()
 	{
+		
 		
 		
 		
