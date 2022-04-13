@@ -1,1 +1,3 @@
-/home/nir/Desktop/MyEbuyEcommerce/MyEbuyProject/MyEbuyBackEndAPI/src/test/java/org/nir/myebuy/MyEbuyBackEndApiApplicationTests.java
+/home/nir/Desktop/MyEbuyEcommerce/MyEbuyProject/MyEbuyBackEndAPI/src/test/java/org/nir/myebuy/api/dao/RoleRepositioryTests.java
+/home/nir/Desktop/MyEbuyEcommerce/MyEbuyProject/MyEbuyBackEndAPI/src/test/java/org/nir/myebuy/api/rest/RestUsersTests.java
+/home/nir/Desktop/MyEbuyEcommerce/MyEbuyProject/MyEbuyBackEndAPI/src/test/java/org/nir/myebuy/api/dao/MyEbuyBackEndApiApplicationTests.java

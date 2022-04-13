@@ -4,9 +4,8 @@ package org.nir.myebuy.admin.user;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
@@ -33,6 +32,7 @@ public class UserRepositoryTests
 	
 	//OK
 	@Test
+	@Disabled
 	public void testCreateTable()
 	{
 		
@@ -94,6 +94,7 @@ public class UserRepositoryTests
 //	
 	//OK
 	@Test
+	@Disabled
 	public void testListAllUsers()
 	{
 		//GIVEN
@@ -114,6 +115,7 @@ public class UserRepositoryTests
 	}
 	
 	@Test
+	@Disabled
 	public void testGetUserById()
 	{
 		//ARRANGE
@@ -132,26 +134,27 @@ public class UserRepositoryTests
 	}
 	
 	//PERFECT
-//	@Test
-//	public void testUpdateUser()
-//	{
-//		//ARRANGE
-//		Integer id = 1; 
-//		User user = this.userRepository.findById(id).get();
-//		System.out.println(">>testUpdateUser(): Original user from db: " + user); 
-//		
-//		//ACT
-//		user.setFirstName("Niron");
-//		user.setEnabled(true);
-//		User updatedUser = this.userRepository.save(user); 
-//		
-//		//ASSERT
-//		assertThat(updatedUser).isNotNull();
-//		assertThat(updatedUser.getFirstName()).isEqualTo("Niron"); 
-//		
-//		System.out.println(">>testUpdateUser(): Updated user: " + updatedUser); 
-//		
-//	}
+	@Test
+	@Disabled
+	public void testUpdateUser()
+	{
+		//ARRANGE
+		Integer id = 1; 
+		User user = this.userRepository.findById(id).get();
+		System.out.println(">>testUpdateUser(): Original user from db: " + user); 
+		
+		//ACT
+		user.setFirstName("Niron");
+		user.setEnabled(true);
+		User updatedUser = this.userRepository.save(user); 
+		
+		//ASSERT
+		assertThat(updatedUser).isNotNull();
+		assertThat(updatedUser.getFirstName()).isEqualTo("Niron"); 
+		
+		System.out.println(">>testUpdateUser(): Updated user: " + updatedUser); 
+		
+	}
 //
 //	/**
 //	 * PERFECT
@@ -221,6 +224,7 @@ public class UserRepositoryTests
 
 	 */
 	@Test 
+	@Disabled
 	void updateUserFirstName()
 	{
 		//Arrange
@@ -238,6 +242,7 @@ public class UserRepositoryTests
 	}
 	
 	@Test
+	@Disabled
 	public void testCreateNewUserWithTwoRolesWithImgURL()
 	{
 		//ARRANGE
@@ -289,14 +294,7 @@ public class UserRepositoryTests
 //		
 //	}
 //	
-	@Test
-	public void testCreateUserWithImageUrl()
-	{
-		
-		
-		
-		
-	}
+	
 	
 
 }

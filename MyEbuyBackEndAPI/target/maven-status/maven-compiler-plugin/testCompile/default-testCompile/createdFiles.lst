@@ -1,0 +1,3 @@
+org/nir/myebuy/api/rest/RestUsersTests.class
+org/nir/myebuy/api/dao/MyEbuyBackEndApiApplicationTests.class
+org/nir/myebuy/api/dao/RoleRepositioryTests.class

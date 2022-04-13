@@ -1,0 +1,4 @@
+org/nir/myebuy/api/dao/RoleRepository.class
+org/nir/myebuy/api/MyEbuyBackEndApiApplication.class
+org/nir/myebuy/api/config/MyDataRestConfig.class
+org/nir/myebuy/api/dao/UserRepository.class
