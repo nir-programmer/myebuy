@@ -5,6 +5,7 @@ import java.util.List;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,9 @@ public class UserService
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder; 
 	
 	public List<User> listAll()
 	{
@@ -28,6 +32,12 @@ public class UserService
 	public void save(User user)
 	{
 		this.userRepository.save(user); 
+	}
+	
+	private void encodePassword(User user)
+	{
+		
+		
 	}
 	
 
