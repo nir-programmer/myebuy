@@ -87,7 +87,7 @@
 <h2>Manage Users</h2>
 <a th:href="@{/users/new}">Create new user</a>
 </div>
-<div th:if="${message != null}">
+<div th:if="${message != null}" class="alert alert-success text-center">
 	[[${message}]]
 </div>
 

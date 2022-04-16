@@ -31,13 +31,23 @@ public class UserService
 	
 	public void save(User user)
 	{
+		//Enecode the password before saving in the DB 
+		this.encodePassword(user);
 		this.userRepository.save(user); 
 	}
 	
 	private void encodePassword(User user)
 	{
+		String encodedPassword = this.passwordEncoder.encode(user.getPassword());
 		
+		user.setPassword(encodedPassword);
+	}
+	
+	public boolean isEmailUnique(String email)
+	{
+		User userByEmail=  this.userRepository.getUserByEmail(email);
 		
+		return userByEmail == null;
 	}
 	
 

@@ -46,7 +46,43 @@ public class User {
 //	private Integer ratings = 3;
 
 	
-	/**
+	/** IMPORTANT
+	 * 
+	 * This class: User
+		 * 1. @JoinTable tells Hibernate: 
+		 * 
+			 * 	-Look at the user_id column in the users_roles table 
+			 * 
+			 *  - For other side (inverse) , look at the role_id column in the users_roles 
+			 *  
+			 *  - Hibernate uses this info to find the relationship between users and roles 
+		 *  
+		 *  
+		 * 2.  The inverse:
+		 *  
+		 *   	- I'm defining the relationship in the User class
+		 *   
+		 *   	- The Role class is on the other side -> so it is considred as the "inverse"! 
+		 *   		
+		 *   
+		 *   Requirement: If delteing a User - dont delete Role! - OK - dont cascading on delete 
+	 *  
+	 *  	TO-DO:
+	 *  
+	 *  	1. Define the fetching: lazy
+	 *  
+	 *  	2. Define the Cascade : all exepct DELETE 
+	 *  
+	 		 3. Define the @JoinTable
+	 *  
+	 *  	@ManyToMany(fetch = FetchType.LAZY, 
+	 *  			cascade = {CascadeType.PERSIST, CascadeType.MERGE, 
+	 *  			cascaseType.DETACH, CascadeType.REFREASH}
+	 *  	@JoinTable(name = "users_roles", 
+	 *  		joinColumns = @JoinColumn(name = "user_id"), 
+	 *  		inveersJoinColumns = @JoinColumn(name="role_id"
+	 *  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	 *  
 	 * NOTE: The many to many relationshiop is UNI DIRECTIONAL - from user to roles 
 	 */
 	@ManyToMany
@@ -56,6 +92,7 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id")
 			)
+	//This is the ivnerse! -other side 
 	private Set<Role> roles = new HashSet<>();
 
 	
