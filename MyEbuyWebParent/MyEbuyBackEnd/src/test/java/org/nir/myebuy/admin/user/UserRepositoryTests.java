@@ -334,7 +334,7 @@ public class UserRepositoryTests
 		Integer id = 1;
 		User user = this.userRepository.findById(id).get();
 		//ACT 
-		List<Role> roles = this.userRepository.findByI
+		//this.userRepository
 	}
 //	
 	
