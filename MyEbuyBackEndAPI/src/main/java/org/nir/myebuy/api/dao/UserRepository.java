@@ -6,5 +6,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 //@CrossOrigin({"http://localhost:4200", "http://localhost:5501"})
 @CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501"})
 public interface UserRepository extends JpaRepository<User, Integer> {
+	
+	/**
+	 * @Query("select t from Test t join User u where u.username = :username")
+		List<Test> findAllByUsername(@Param("username")String username);
+
+	 */
+	//public List<Role> find
 
 }
