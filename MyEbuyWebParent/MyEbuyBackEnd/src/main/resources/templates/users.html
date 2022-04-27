@@ -129,8 +129,12 @@
 					<a th:if="${user.enabled == false}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
 				</td>
 				<td>
-				<!-- Must set the href attribute for displaying the style of the icon -->
-				<a class="fas fa-edit fa-2x icon-green" href=""></a>
+				<!-- Must set the href attribute for displaying the style of the icon
+					UPDATE THE FRONT END ANGULARY FOR THIS URL??
+					 -->
+				<a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"
+					title="Edit this user">
+					</a>
 				&nbsp;
 				<a class="fas fa-trash fa-2x icon-dark" href=""></a>
 				</td>
