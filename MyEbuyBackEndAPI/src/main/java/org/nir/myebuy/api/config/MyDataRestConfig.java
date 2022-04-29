@@ -23,6 +23,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer
 	private EntityManager entityManager ;
 
 	//I will use the CorsRegistry parameter later - to configure the CORS support in the app
+	
+	
+	
+	
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) 
 	{
@@ -38,7 +42,6 @@ public class MyDataRestConfig implements RepositoryRestConfigurer
 		
 		//I added this since the JSON does not include the id - DOES NOT WORK FOR ROLE!
 		//config.exposeIdsFor(Role.class);
-		
 		
 		config.getExposureConfiguration()
 		.forDomainType(User.class)
