@@ -7,10 +7,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 
 //@Profile("dev")
 @Entity
 @Table(name = "roles")
+@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +37,8 @@ public class Role {
 	@Column(length = 150, nullable = false)
 	private String description;
 
-	public Role() {
-	}
+//	public Role() {
+//	}
 	
 	public Role(Integer id) {
 		this.id = id;
@@ -39,12 +54,12 @@ public class Role {
 	}
 
 	
-	public Role(Integer id, String name, String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
+//	public Role(Integer id, String name, String description) {
+//		super();
+//		this.id = id;
+//		this.name = name;
+//		this.description = description;
+//	}
 
 	
 	public Integer getId() {
@@ -103,97 +118,3 @@ public class Role {
 
 	
 }
-//@Entity(name = "roles")
-//public class Role 
-//{
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Integer id; 
-//	
-//	@Column(length = 40, nullable = false  ,unique = true) 
-//	private String name ; 
-//	
-//	@Column(length = 150, nullable = false)
-//	private String description;
-//
-//	//For Hibernate
-//	public Role() {}
-//
-//	
-//	public Role(Integer id) {
-//		super();
-//		this.id = id;
-//	}
-//
-//
-//	public Role(String name, String description) {
-//		super();
-//		this.name = name;
-//		this.description = description;
-//	}
-//
-//	public Role(String name) {
-//		super();
-//		this.name = name;
-//	}
-//
-//	public Integer getId() {
-//		return id;
-//	}
-//
-//	public void setId(Integer id) {
-//		this.id = id;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getDescription() {
-//		return description;
-//	}
-//
-//	public void setDescription(String description) {
-//		this.description = description;
-//	}
-//
-//	
-//
-//	@Override
-//	public String toString() {
-//		return this.name;
-//	}
-//
-//
-//	@Override
-//	public int hashCode() {
-//		return Objects.hash(id);
-//	}
-//
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Role other = (Role) obj;
-//		return Objects.equals(id, other.id);
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//
-//}

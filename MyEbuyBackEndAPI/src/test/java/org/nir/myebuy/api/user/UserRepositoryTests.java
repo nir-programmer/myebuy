@@ -32,31 +32,7 @@ public class UserRepositoryTests
 	@Autowired
 	private TestEntityManager entityManager; 
 	
-//	@Test
-//	public void testSmoke()
-//	{
-//		assertThat(this.userRepository).isNotNull();
-//		assertThat(this.entityManager).isNotNull();
-//	}
-	
-//	@Test
-//	@DisplayName("Should return correct list of users from db")
-//	public void testListAllUsers()
-//	{
-//		//GIVEN
-//		//int expectedUsers = 26; 
-//		
-//		//WHEN
-//		List<User> users = (List<User>) this.userRepository.findAll();
-//		int actualUsers = users.size();
-//		
-//		//THEN
-//		assertThat(expectedUsers).isEqualTo(expectedUsers);
-//		
-//		
-//		users.stream().forEach(System.out::println);
-//	
-//	}
+
 	@Test
 	public void testSmoke()
 	{
@@ -92,7 +68,7 @@ public class UserRepositoryTests
 	public void testListAllUsers()
 	{
 		//GIVEN
-		int expectedUsers = 2; 
+		int expectedUsers = 1; 
 		
 		//WHEN
 		List<User> users = (List<User>) this.userRepository.findAll();
@@ -101,13 +77,14 @@ public class UserRepositoryTests
 		//THEN
 		assertThat(expectedUsers).isEqualTo(expectedUsers);
 		
-		
+		System.out.println(">>testListAllUsers() - list of all users"); 
 		users.stream().forEach(System.out::println);
 	
 	}
 	
+	//OK
 	@Test
-	//@Disabled
+	@Disabled
 	public void testCreateNewUserWithTwoRoles()
 	{
 		//ARRANGE
@@ -194,6 +171,45 @@ public class UserRepositoryTests
 		System.out.println(">>testUpdateRolesOfUser() -roles of updated user");
 		roles = updatedUser.getRoles();
 		roles.forEach(System.out::println);
+		
+	}
+	//H2 CODE:     SELECT COUNT(*) from users;
+	@Test
+	public void testCount()
+	{
+		//GIVEN
+		long expectedNumberOfUsers = 3; 
+		
+		//WHEN
+		//this.userRepository.deleteAll();
+		
+		long actualNumberOfUsers = this.userRepository.count();
+		
+		
+		//THEN
+		assertThat(actualNumberOfUsers).isEqualTo(expectedNumberOfUsers);
+	
+	}
+	
+	
+	/**
+	 * IMPORTANT : CHECK IF IS POSSIBLE TO DELETE USERS - WHICH ARE NOT REFERED BY ROLES(
+	 * NO BI-DIRECTIONAL ! THE ROLES DONT REFER TO USERS - SHOULD NOT BE A PROBLEM
+	 */
+	@Test
+	public void testDeleteAll()
+	{
+		//GIVEN
+		long expectedNumberOfUsersAfterRemoveAll = 0; 
+		
+		//WHEN
+		this.userRepository.deleteAll();
+		
+		long actualNumberOfUsersAfterRemoveAll = this.userRepository.count();
+		
+		
+		//THEN
+		assertThat(actualNumberOfUsersAfterRemoveAll).isEqualTo(expectedNumberOfUsersAfterRemoveAll);
 		
 	}
 

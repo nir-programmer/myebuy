@@ -1,4 +1,4 @@
-package org.nir.myebuy.api.user;
+package org.nir.myebuy.api.role;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,37 +35,11 @@ public class RoleRepositioryTests
 	{
 		assertThat(entityManager).isNotNull();
 		assertThat(this.repository).isNotNull();
-		
-
 	}
 	
-//	
-//	
-//	//GREAT
-//	@Test
-//	public void testGetAllRoles()
-//	{
-//		int expectedNumberOfRoles = 5; 
-//		List<Role> roles ; 
-//		
-//		//ACT
-//		roles = (List<Role>) this.repository.findAll();
-//		int actualNumberOfRoles = roles.size();
-//		
-//		//ASSERT
-//		assertThat(roles).isNotNull();
-//		assertThat(expectedNumberOfRoles).isEqualTo(actualNumberOfRoles);
-//		
-//		roles.stream()
-//		.map(role -> {
-//			System.out.println("Role Name: " + role.getName());
-//			return role.getId();
-//		})
-//		.forEach(System.out::println);
-//	}
-	
+	//NOTE: THE ID IS NOT SET TO 0 AUTOMATICALLY AFTER REMOVING - FOR NOW I KNOW HOW RESET TO 0 ONLY FROM THE DB USING TRUNCATE
 	@Test
-	@Disabled
+	//@Disabled
 	public void testCreateFirstRole()
 	{
 		//GIVEN 
@@ -171,6 +145,7 @@ public class RoleRepositioryTests
 	}
 	
 	@Test
+	@Disabled
 	public void testDeleteRole()
 	{
 		Integer roleId = 1; 
@@ -182,6 +157,51 @@ public class RoleRepositioryTests
 		assertThat(roleOptional.isPresent()).isFalse();  
 		
 		System.out.println(">>testDeleteRole(): roleOptional = " + roleOptional);
+		
+	}
+	
+	
+	//OK
+	@Test
+	public void testCountRoles()
+	{
+		//GIVEN
+		long expectedCount = 5; 
+		
+		
+		//WHEN
+		long actualCount =this.repository.count(); 
+		
+		
+		
+		//THEN
+		assertThat(expectedCount).isEqualTo(actualCount);
+		
+		
+	}
+	
+	
+	/**OK
+	 * NOTE: Can not delete a role if there are users refer to it !! try first delete all users
+	 * BUT IT IS POSSIBLE TO DELETE ALL USERS !! OK
+	 * 
+	 * After remove all users - try to remove all roles - WORKS!!!!!!!!!!!!!!!!!!!!
+	 */
+	@Test 
+	public void testDeleteAllRoles()
+	{
+		//GIVEN
+		Integer expectedNumberOfRolesAfterDeleteAll = 0; 
+		
+		
+		//WHEN
+		this.repository.deleteAll(); 
+		List<Role> roles = (List<Role>) this.repository.findAll();
+		Integer actualNumberOfRolesAfterDeleteAll = roles.size();
+		//THEN
+		assertThat(actualNumberOfRolesAfterDeleteAll).isEqualTo(expectedNumberOfRolesAfterDeleteAll) ;
+		
+		System.out.println(">>testDeleteAllRoles() - number of roles after delete all: " + actualNumberOfRolesAfterDeleteAll); 
 		
 	}
 	

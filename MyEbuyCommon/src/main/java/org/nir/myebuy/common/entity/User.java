@@ -13,14 +13,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.springframework.context.annotation.Profile;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 //@Profile("dev")
 @Entity
 @Table(name = "users")
+@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class User {
 	
 	@Id
@@ -131,7 +143,7 @@ public class User {
 	
 	
 		
-	public User() {}
+	///public User() {}
 	
 	
 	
@@ -150,92 +162,93 @@ public class User {
 		this.lastName = lastName;
 	}
 
-
-
-	public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-
-	public String getLastName() {
-		return lastName;
-	}
-
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-
-	public String getPhotos() {
-		return photos;
-	}
-
-
-	public void setPhotos(String photoes) {
-		this.photos = photoes;
-	}
-
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	} 
-	
 	
 	public void addRole(Role role) 
 	{
 		this.roles.add(role); 
 	}
+
+//	public Integer getId() {
+//		return id;
+//	}
+//
+//
+//	public void setId(Integer id) {
+//		this.id = id;
+//	}
+//
+//
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
+//
+//
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
+//
+//
+//	public String getFirstName() {
+//		return firstName;
+//	}
+//
+//
+//	public void setFirstName(String firstName) {
+//		this.firstName = firstName;
+//	}
+//
+//
+//	public String getLastName() {
+//		return lastName;
+//	}
+//
+//
+//	public void setLastName(String lastName) {
+//		this.lastName = lastName;
+//	}
+//
+//
+//	public String getPhotos() {
+//		return photos;
+//	}
+//
+//
+//	public void setPhotos(String photoes) {
+//		this.photos = photoes;
+//	}
+//
+//
+//	public boolean isEnabled() {
+//		return enabled;
+//	}
+//
+//
+//	public void setEnabled(boolean enabled) {
+//		this.enabled = enabled;
+//	}
+//
+//
+//	public Set<Role> getRoles() {
+//		return roles;
+//	}
+//
+//
+//	public void setRoles(Set<Role> roles) {
+//		this.roles = roles;
+//	} 
+//	
+	
+	
 
 	
 
@@ -252,11 +265,11 @@ public class User {
 
 
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", photos=" + photos + ", enabled=" + enabled + ", roles=" + roles + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+//				+ ", lastName=" + lastName + ", photos=" + photos + ", enabled=" + enabled + ", roles=" + roles + "]";
+//	}
 
 
 //
