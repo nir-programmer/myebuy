@@ -136,7 +136,8 @@
 					title="Edit this user">
 					</a>
 				&nbsp;
-				<a class="fas fa-trash fa-2x icon-dark" href=""></a>
+				<!-- add new css class for displaying the modal - link-delete -->
+				<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{'/users/delete/' + ${user.id}}" title="Delete this user"></a>
 				</td>
 			</tr>
 		</tbody>
@@ -148,5 +149,22 @@
 </div>
 </div>
 
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		//Select the element with class link-delete  - and add handler on the click event
+		$(".link-delete").on("click", function(e){
+			//Prevent the page to reload when click the link
+			e.preventDefault();
+			//Test if the element is the actual link for delete and check it's  href attribute - OK!!    :alert message /MyEbuyBackEnd/users/delete/4
+			alert($(this).attr("href"));
+		})
+		
+		
+	});
+
+
+
+</script>
 </body>
 </html>

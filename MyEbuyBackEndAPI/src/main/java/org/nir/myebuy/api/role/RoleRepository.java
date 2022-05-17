@@ -1,8 +1,7 @@
-package org.nir.myebuy.api.user;
+package org.nir.myebuy.api.role;
 
 import org.nir.myebuy.common.entity.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * Access to XMLHttpRequest at 'http://localhost:8083/MyEbuyAdminAPI/api/users' 
@@ -16,7 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 //@CrossOrigin("http://localhost:4200")
 //@CrossOrigin({"http://localhost:4200", "http://localhost:5501"})
 //@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501"})
-public interface RoleRepository extends JpaRepository<Role, Integer> 
+//@Profile("dev")
+public interface RoleRepository extends CrudRepository<Role, Integer> 
 {
 	
 

@@ -113,5 +113,18 @@ public class UserService
 		}
 	}
 	
+	//NOTE: I call the countById() and not getUser() findById() - because I dont want to return a full Object of user - I just want to check existence
+	public void deleteUser(Integer userId) throws UserNotFoundException
+	{
+		Long countById = this.userRepository.countById(userId); 
+		
+		if(countById == null || countById == 0) 
+			throw new UserNotFoundException("Could not find any user with ID " + userId);	
+		
+		
+		this.userRepository.deleteById(userId);
+		
+	}
+	
 
 }

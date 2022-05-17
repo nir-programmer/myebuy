@@ -15,6 +15,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.context.annotation.Profile;
+
+
+//@Profile("dev")
 @Entity
 @Table(name = "users")
 public class User {
@@ -30,6 +34,34 @@ public class User {
 	@Column(length = 64, nullable = false)
 	private String password; 
 	
+	
+	
+	public User(Integer id, String email, String password, String firstName, String lastName, String photos,
+			boolean enabled) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.photos = photos;
+		this.enabled = enabled;
+	}
+
+
+
+	public User(String email, String password, String firstName, String lastName, String photos, boolean enabled) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.photos = photos;
+		this.enabled = enabled;
+	}
+
+
+
 	@Column(name  = "first_name", length = 45, nullable = false)
 	private String firstName; 
 	

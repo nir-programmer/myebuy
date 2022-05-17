@@ -7,9 +7,11 @@ import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -76,28 +78,27 @@ public class UserController {
 			// display the error message in the user list page (after redirecting)
 			redirectAttributes.addFlashAttribute("message",ex.getMessage());
 			return "redirect:/users"; 
-		} 
-		/**
-		 * @GetMapping("/users/edit/{id}")
-	public String editUser(@PathVariable(name = "id") Integer id, 
-			Model model,
-			RedirectAttributes redirectAttributes) {
-		try {
-			User user = service.get(id);
-			List<Role> listRoles = service.listRoles();
-
-			model.addAttribute("user", user);
-			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
-			model.addAttribute("listRoles", listRoles);
-
-			return "user_form";
-		} catch (UserNotFoundException ex) {
-			redirectAttributes.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/users";
 		}
+		
+		
 	}
-}
-		 */
+	
+	//WHY GetMapping and not @Delete?? Maybe because it is not from a form?????
+	@GetMapping("/users/delete/{userId}")
+	public String deleteUser(@PathVariable(name="userId") Integer userId, RedirectAttributes redirectAttributes)
+	{
+		try 
+		{
+			//User user = this.service.getUser(userId);
+			this.service.deleteUser(userId);
+			redirectAttributes.addFlashAttribute("message", "The user ID " + userId + " has been deleted successfully");
+		}
+		catch(UserNotFoundException exc)
+		{
+			redirectAttributes.addFlashAttribute("message", exc.getMessage());
+		}
+		
+		return "redirect:/users";
 		
 		
 	}

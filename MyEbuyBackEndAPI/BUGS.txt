@@ -1,0 +1,2 @@
+
+1. getUser() does not return HTTP status code = 404 when no user found ! (like the getRole does!)

@@ -1,7 +1,5 @@
 package org.nir.myebuy.common.entity;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+//@Profile("dev")
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -38,6 +38,15 @@ public class Role {
 		this.description = description;
 	}
 
+	
+	public Role(Integer id, String name, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
+	
 	public Integer getId() {
 		return id;
 	}

@@ -1,10 +1,18 @@
 package org.nir.myebuy.admin.user;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.nir.myebuy.common.entity.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+//@Disabled
 @DataJpaTest
 //For testing with the real DB (instead H2 in memory used by Spring) 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -12,15 +20,22 @@ import org.springframework.test.annotation.Rollback;
 @Rollback(false)
 public class RoleRepositoryTests 
 {
-//	@Autowired
-//	private RoleRepository roleRepository; 
-//	
-//	//OK - The roles table created by Hibernate!
-//	@Test
-//	public void smokeTest()
-//	{
-//		assertThat(this.roleRepository).isNotNull(); 
-//	}
+	@Autowired
+	private RoleRepository roleRepository; 
+	
+	@Autowired
+	private TestEntityManager entityManager;
+	
+	//OK - The roles table created by Hibernate!
+	@Test
+	public void smokeTest()
+	{
+		assertThat(this.roleRepository).isNotNull(); 
+		assertThat(this.entityManager).isNotNull(); 
+
+		
+	
+	}
 //	
 //	@Test
 //	public void testCreateFirstRole()
@@ -88,4 +103,43 @@ public class RoleRepositoryTests
 ////		}
 ////	
 
+	
+	@Test
+	@Disabled
+	public void testGetRoleById()
+	{
+		Integer id = 1; 
+		Role role = this.roleRepository.findById(id).get(); 
+		
+		assertThat(role).isNotNull();
+		assertThat(role.getId()).isEqualTo(id); 
+		
+		System.out.println(">>testGetRoleById(): Role with id: " + id);
+		System.out.println("\trole name:" + role.getName());
+		System.out.println("\trole description: " + role.getDescription() );
+		
+	}
+	
+	
+	@Test
+	@Disabled
+	public void testUpdateRole()
+	{
+		Integer id = 1; 
+		String description = "manage everything";
+		Role role = this.entityManager.find(Role.class, id);
+		
+		role.setDescription(description);
+		
+		Role updatedRole = this.entityManager.persist(role);
+		
+		
+		assertThat(updatedRole).isNotNull();
+		assertThat(updatedRole.getId()).isEqualTo(1);
+		assertThat(updatedRole.getDescription()).isEqualTo(description);
+		
+		
+		
+	
+	}
 }

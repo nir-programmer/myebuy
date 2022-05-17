@@ -2,9 +2,12 @@ package org.nir.myebuy.common.entity;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.rest.core.config.Projection;
 
+@Profile("dev")
 @Projection(name="customUser", 
 types = {User.class})
 public interface CustomUser {

@@ -23,6 +23,7 @@ import org.springframework.test.annotation.Rollback;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
+//@Disabled
 public class UserRepositoryTests
 {
 	@Autowired
@@ -328,14 +329,31 @@ public class UserRepositoryTests
 	}
 	
 	@Test
-	public void testGetRolesOfUser()
+	@DisplayName("Should return correct number of users for a given user id")
+	public void testCountUserById()
 	{
-		//GIVEN 
-		Integer id = 1;
-		User user = this.userRepository.findById(id).get();
-		//ACT 
-		//this.userRepository
+		//ARRANGE
+		Integer userId = 30; 
+		Long expectedCount = 1l; 
+		
+		//ACT
+		Long actualCount = this.userRepository.countById(userId);
+		
+		//ASSERT
+		assertThat(expectedCount).isNotNull().isEqualTo(actualCount).isGreaterThan(0); 
+		
+		System.out.println(">>testCountUserById() - actual number of users: " + actualCount); 
+		
+		
+		
+		
 	}
+	
+	
+	
+	
+	
+	
 //	
 	
 	

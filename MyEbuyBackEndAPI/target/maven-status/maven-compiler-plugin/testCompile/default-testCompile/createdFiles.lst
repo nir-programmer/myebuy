@@ -1,4 +1,4 @@
-org/nir/myebuy/api/dao/UserRepositoryTests.class
-org/nir/myebuy/api/dao/RoleRepositioryTests.class
+org/nir/myebuy/api/user/RoleRepositioryTests.class
 org/nir/myebuy/api/MyEbuyBackEndApiApplicationTests.class
 org/nir/myebuy/api/rest/RestUsersTests.class
+org/nir/myebuy/api/user/UserRepositoryTests.class
