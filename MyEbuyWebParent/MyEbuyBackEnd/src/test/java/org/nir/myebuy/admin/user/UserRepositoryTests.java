@@ -190,7 +190,7 @@ public class UserRepositoryTests
 		User userRavi = this.userRepository.findById(id).get();
 		System.out.println(">>testUpdateUserRoles():Updated roles of user with id : " + id); 
 		
-		Set<Role> originalRoles = userRavi.getRoles();
+		List<Role> originalRoles = userRavi.getRoles();
 		originalRoles.stream().forEach(System.out::println);
 		
 		//ACT

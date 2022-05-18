@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.management.RuntimeErrorException;
 
 import org.nir.myebuy.api.role.RoleRepository;
-import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +34,11 @@ public class UserService
 	public List<User> getUsers(){
 		return (List<User>) this.userRepository.findAll();
 	}
+	
+	//I CHANGE THIS TO SET - LIKE NHAM
+//	public Set<User> getUsers(){
+//		return (Set<User>) this.userRepository.findAll();
+//	}
 	
 	/**
 	 * public Optional<Role> getRole(Integer id) {

@@ -155,7 +155,7 @@ public class UserRepositoryTests
 		Integer expectedNumberOfRoles = 3; 
 		Role role = this.entityManager.find(Role.class,roleId );
 		User user = this.userRepository.findById(userId).get();
-		Set<Role> roles = user.getRoles();
+		List<Role> roles = user.getRoles();
 		roles = user.getRoles();
 		System.out.println(">>testUpdateRolesOfUser() -roles of Original user:");
 		roles.forEach(System.out::println);

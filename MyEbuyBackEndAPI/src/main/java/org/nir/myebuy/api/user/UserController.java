@@ -4,11 +4,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.nir.myebuy.api.role.RoleModelAssembler;
+import org.nir.myebuy.api.role.RoleService;
+import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,44 +23,93 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+//CHECK THIS CODE - I THINK IT WORKS BEFORE ! where the users stored with List instead of Set!!! 
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501"})
 public class UserController {
 	
-	//@Autowired
-	private final  UserService userService;
+	@Autowired
+	private   UserService userService;
 	
-	public UserController(UserService userService) {this.userService = userService;}
+	@Autowired
+	private  RoleService roleService ;
+	
+	@Autowired
+	private UserModelAssembler userModelAssembler;   
+	
+	
+	@Autowired
+	private RoleModelAssembler roleModelAssembler; 
+	
+	//Pagination support -STEP 2(after extending the SortingAndPagination by the Repo) 
+	@Autowired
+	private PagedResourcesAssembler<User> pagedResourcesAssembler; 
 	
 	
 	
 	@GetMapping("/users")
-	public CollectionModel<EntityModel<User>> getUsers()
+	public ResponseEntity<CollectionModel<UserModel>> getAllUsers() 
 	{
-		List<EntityModel<User>> users = this.userService.getUsers().stream()
-				.map(user -> EntityModel.of(user,
-						linkTo(methodOn(UserController.class)
-						.getUser(user.getId())).withSelfRel(),
-						linkTo(methodOn(UserController.class).getUsers()).withRel("users")))
-						.collect(Collectors.toList());
-				
+		List<User> users = this.userService.getUsers();
 		
-		return CollectionModel.of(users, linkTo(methodOn(UserController.class).getUsers()).withSelfRel());
+		return new ResponseEntity<> (
+				this.userModelAssembler.toCollectionModel(users),HttpStatus.OK);
+		
 	}
-	
-	
+
+		
 	//CAN NOT GET THE PARENT LINK!!
 	//Step 3 for handling errors using REST!!! 
-		@GetMapping("/employees/{id}")
-		EntityModel<User> getUser(@PathVariable Integer id) {
+	@GetMapping("/users/{id}")
+	public ResponseEntity<UserModel> getUserById(@PathVariable("id") Integer id)
+	{
+		return this.userService.getUser(id) 
+				.map(user -> this.userModelAssembler.toModel(user)) 
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 
-		  User user = this.userService.getUser(id) 
-		      .orElseThrow(() -> new UserNotFoundException(id));
-
-		  return EntityModel.of(user, //
-		      linkTo(methodOn(UserController.class).getUser(id)).withSelfRel(),
-		      linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
-		}
+		//CHECK
+//		User user = this.userService.getUser(id) 
+//			      .orElseThrow(() -> new UserNotFoundException(id));
+//
+//			  return EntityModel.of(user, //
+//			      linkTo(methodOn(UserController.class).getUserById(id)).withSelfRel(),
+//			      linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+			}
+	
+	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////
+//CHECK THIS CODE - I THINK IT WORKS BEFORE ! where the users stored with List instead of Set!!! 
+//	@GetMapping("/users")
+//	public CollectionModel<EntityModel<User>> getUsers()
+//	{
+//		List<EntityModel<User>> users = this.userService.getUsers().stream()
+//				.map(user -> EntityModel.of(user,
+//						linkTo(methodOn(UserController.class)
+//						.getUserById(user.getId())).withSelfRel(),
+//						linkTo(methodOn(UserController.class).getUsers()).withRel("users")))
+//						.collect(Collectors.toList());
+//				
+//		
+//		return CollectionModel.of(users, linkTo(methodOn(UserController.class).getUsers()).withSelfRel());
+//	}
+//	
+	
+//	//CAN NOT GET THE PARENT LINK!!
+//	//Step 3 for handling errors using REST!!! 
+//		@GetMapping("/users/{id}")
+//		EntityModel<User> getUserById(@PathVariable Integer id) {
+//
+//		  User user = this.userService.getUser(id) 
+//		      .orElseThrow(() -> new UserNotFoundException(id));
+//
+//		  return EntityModel.of(user, //
+//		      linkTo(methodOn(UserController.class).getUserById(id)).withSelfRel(),
+//		      linkTo(methodOn(UserController.class).getUsers()).withRel("users"));
+//		}
 
 	//RPC - Before adding links!!! 
 //	@GetMapping("/users")
@@ -167,6 +222,15 @@ public class UserController {
 		//For simplicity - return a String and not a JSON object 
 		return this.userService.isEmailUnique(emailWithId.getId(),emailWithId.getEmail()) ? "OK":"Duplicated";
 		
+	}
+
+
+
+	
+	
+	public Role getRoleById(Integer id)
+	{
+		return this.roleService.getRoleById(id).get() ;
 	}
 	
 	

@@ -26,7 +26,7 @@ public class RoleService
 	}
 
 
-	public Optional<Role> getRole(Integer id) {
+	public Optional<Role> getRoleById(Integer id) {
 		
 		//return this.roleRepository.findById(id).orElseThrow(() -> new RoleNotFoundException(id));
 		

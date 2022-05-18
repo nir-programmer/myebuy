@@ -1,8 +1,8 @@
 package org.nir.myebuy.common.entity;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -137,7 +137,7 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id")
 			)
 	//This is the ivnerse! -other side 
-	private Set<Role> roles = new HashSet<>();
+	private List<Role> roles = new ArrayList<>();
 
 	
 	

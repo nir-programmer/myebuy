@@ -1,13 +1,18 @@
 package org.nir.myebuy.api.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 import org.nir.myebuy.api.role.RoleController;
+import org.nir.myebuy.api.role.RoleModelAssembler;
 import org.nir.myebuy.api.role.RoleRepository;
 import org.nir.myebuy.api.role.RoleService;
 import org.nir.myebuy.api.user.response.UserEmbedded;
@@ -15,6 +20,8 @@ import org.nir.myebuy.common.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.client.Traverson;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(RoleController.class)
 public class RestRolesTests {
-	private static String USER_ENDPOINT = "/roles";
+	private static String baseUrl = "http://localhost:8083/MyEbuyAdminAPI/api/roles";
 
 	private static final Logger logger = Logger.getLogger(RestRolesTests.class);
 	
@@ -35,6 +42,9 @@ public class RestRolesTests {
 	
 	@MockBean
 	private RoleService roleService	; 
+	
+	@MockBean
+	private RoleModelAssembler assembler; 
 	
 	
 	@Autowired 
@@ -69,10 +79,38 @@ public class RestRolesTests {
 		UserEmbedded embedded = new UserEmbedded();
 		
 		
+	
+	}
+	
+	@Test
+	public void testGetRoleById() throws Exception
+	{
+		//GIVEN
+		Integer id = 1; 
+		String url = baseUrl + "/" + id; 
+		
+		
+		//WHEN
+		 this.mockMvc.perform(get(url)) 
+		 	.andExpect(jsonPath("$.roles.name").value("Admin"));
 		
 		
 		
 		
+		//THEN
+		
+		
+	}
+	
+	@Test
+	public void testGetRoleByIdUsingTraverson() throws URISyntaxException 
+	{
+		Integer id = 1; 
+		Traverson traverson = new Traverson(new URI(baseUrl + "/" + id), MediaTypes.HAL_JSON);  
+		
+		String roleName = traverson.follow("self").toObject("$.roles.name");  
+		
+		assertThat(roleName).isEqualTo("Admin"); 
 	}
 
 
