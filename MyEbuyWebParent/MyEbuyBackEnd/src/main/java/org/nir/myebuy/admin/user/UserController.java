@@ -5,13 +5,12 @@ import java.util.List;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -21,11 +20,45 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping("/users")
-	public String listAll(Model model) {
-		List<User> listUsers = service.listAll();
-		model.addAttribute("listUsers", listUsers);
+	public String listFirstPage(Model model) {
 		
-		return "users";
+		return this.listByPage(1, model);
+	}
+	
+	//PAGINATION//WORKS
+	@GetMapping("/users/page/{pageNum}")
+	public String listByPage(@PathVariable(name = "pageNum") Integer pageNum ,Model model)
+	{
+		Page<User> page =  this.service.listByPage(pageNum);
+		
+		List<User> listUsers = page.getContent();
+		
+//		System.out.println("listByPage() - pageNum: " + pageNum); 
+//		System.out.println("listByPage() - total elements: " + page.getTotalElements());
+//		System.out.println("listByPage() - total pages: " + page.getTotalPages()); 
+		
+		
+		//Caluclate the start count(first item in the requested page
+		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE  + 1; 
+		//Caluclate the last count(last item in the requested page
+		long endCount = startCount + UserService.USERS_PER_PAGE - 1; 
+		
+		if(endCount > page.getTotalElements())
+			endCount = page.getTotalElements(); 
+			
+		
+		//UPDATE THE MODEL
+		model.addAttribute("listUsers", listUsers);
+		model.addAttribute("startCount", startCount); 
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("totalItems",page.getTotalElements());
+	
+		
+		return "users"; 
+		
+		
+		
+		
 	}
 	
 	@GetMapping("/users/new")
@@ -102,4 +135,28 @@ public class UserController {
 		
 		
 	}
+	
+	
+	//ADD reference to redirect attribute for redirecting to user list after updating
+	//Disable/Enable user status : th:href="@{'/users/' + ${user.id} + '/enabled/false'}"></a>
+	@GetMapping("/users/{id}/enabled/{status}")
+	public String updateUserEnableStatus(@PathVariable(name ="id") Integer id, @PathVariable(name = "status") boolean enabled, RedirectAttributes redirectAttributes)
+	{
+		System.out.println("UserController: updateUserEnabledStatus before updating: " + enabled); 
+		this.service.updateUserEnableStatus(id, enabled); 
+		
+		String status = enabled ? "enabled" : "disabled" ; 
+		String message = "The user ID " + id + " has been " + status;
+		
+		//Add the message to the model 
+		redirectAttributes.addFlashAttribute("message", message); 
+		
+		
+		return "redirect:/users";
+	}
+	
+	
+	
+	
+	
 }

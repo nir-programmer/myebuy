@@ -6,12 +6,18 @@ import java.util.NoSuchElementException;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService 
 {
+	public static final Integer USERS_PER_PAGE = 4; 
 	@Autowired
 	private UserRepository userRepository; 
 	
@@ -26,6 +32,15 @@ public class UserService
 		return (List<User>) this.userRepository.findAll();
 	}
 	
+	
+	//Note: the page number is 0 based - but the client will pass 1,2,3...
+	public Page<User> listByPage(Integer pageNum)
+	{
+		//Create Pageable of size 
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE); 
+		
+		return this.userRepository.findAll(pageable);
+	}
 	public List<Role> listRoles(){
 		return (List<Role>) this.roleRepository.findAll();
 	}
@@ -73,6 +88,7 @@ public class UserService
 	public boolean isEmailUnique(Integer id, String email)
 	{
 		System.err.println("Id: " + id);
+		
 		User userByEmail=  this.userRepository.getUserByEmail(email);
 		
 		//no user found with the given email - return true
@@ -124,6 +140,51 @@ public class UserService
 		
 		this.userRepository.deleteById(userId);
 		
+	}
+
+
+	public void updateUserEnableStatus(Integer id, boolean status) 
+	{
+		this.userRepository.updateEnabledStatus(id, status);
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public boolean isUniqueEmailViolated(Integer id, String email)
+	{
+		boolean isUniquEmailViolated = false; 
+		
+		User userByEmail = this.userRepository.getUserByEmail(email);
+		boolean isCreatingNew = (id == null || id == 0); 
+		
+		if(isCreatingNew)
+		{
+			if(userByEmail != null) isUniquEmailViolated = true; 
+		}
+		else 
+		{
+			if(userByEmail.getId() != id)
+			{
+				isUniquEmailViolated = true; 
+			}
+		}
+		
+		
+		return isUniquEmailViolated; 
+	}
+
+
+	//MY METHOD - JUST FOR UNIT TESTING - CONVERT TO LOWER CASE 
+	//The repo method works already - tested! 
+	public String getEmailById(Integer id) {
+		String email = this.userRepository.getEmailById(id);
+		System.out.println(">>UserServcie - getEmailById() - repo return email: " + email); 
+		
+		
+		email = email.toLowerCase(); 
+		
+		
+		return email; 
 	}
 	
 

@@ -50,8 +50,15 @@
         <artifactId>junit-jupiter-engine</artifactId>
         
         <scope>test</scope>
-    </dependency>
-		
+        
+    </dependency>	
+		<!-- By default - Maven will not find JUnit5 test classes -->
+		<dependency>
+		  <groupId>org.apache.maven.surefire</groupId>
+		  <artifactId>surefire</artifactId>
+		  <version>3.0.0-M6</version>
+		  <type>pom</type>
+		</dependency>
 		
 	</dependencies>
 
@@ -61,6 +68,67 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<!-- CHAD:MAVEN SUREFIRE PLUGINS(I updated to M6 from M5 -->
+			         <plugin>
+          				<groupId>org.apache.maven.plugins</groupId>
+         			 <artifactId>maven-surefire-plugin</artifactId>
+          		<version>3.0.0-M6</version>
+          		
+          		<configuration>
+          			<testFailureIgnore>true</testFailureIgnore>
+          			
+          			<!-- COPY FROM DOCS - TO DISPLAY THE "DISPLAY NAME" OF THE TESTS -->
+          			 <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                    
+                   		 <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+                </statelessTestsetReporter>
+          		</configuration>
+       	 </plugin>	
+       	       
+		 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M6</version>
+     
+				<executions>
+				<!--During maven test phase I want to execute the  plugin goal(report goal) - maven-surefire-report-plugin:report -->
+					<execution>
+						<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+					</execution>
+				</executions>				
+		</plugin>	
+		
+		
+		<!-- JACOCO -->
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.7</version>
+			
+			<executions>
+				<execution>
+					<id>jacoco-prepare</id>
+					<!-- Prepare JaCoCo agent: this goal is bound by default to Maven's initialzie phase: so no need to specify the phase -->
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				
+					<!-- Specify the phase - test: During Maven's test phase - execute the plugin goal: jacoco-maven-plugin:report -->
+				<execution>
+					<id>jacoco-report</id>
+					<phase>test</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+					
+				</execution>
+			</executions>
+		</plugin>
 		</plugins>
 	</build>
 
