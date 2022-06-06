@@ -9,18 +9,32 @@ import javax.management.RuntimeErrorException;
 import org.nir.myebuy.api.role.RoleRepository;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService 
 {
+	
+	public static final Integer USERS_PER_PAGE = 4; 
+	
+	
 	//@Autowired
 	private final  UserRepository userRepository; 
 	
 	
 	private final PasswordEncoder passwordEncoder; 
 
+	
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	
+	
 	public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder ) 
 	{
 		this.userRepository = userRepository;
@@ -28,14 +42,30 @@ public class UserService
 	}
 	
 	
-	@Autowired
-	private RoleRepository roleRepository;
-	
-	public List<User> getUsers(){
+	//NO PAGINATION:
+	public List<User> getAllUsers(){
 		return (List<User>) this.userRepository.findAll();
 	}
 	
-	//I CHANGE THIS TO SET - LIKE NHAM
+	
+	//Pagination - NHAM(webmvc) 
+	public Page<User> listByPage(Integer pageNum)
+	{
+		Pageable pageable = PageRequest.of(pageNum, USERS_PER_PAGE); 
+		
+		return this.userRepository.findAll(pageable);
+	}
+	
+//	//Howtodoinjava!!!!!
+//	public Page<User> listByPage(Pageable pageable)
+//	{
+//		return this.userRepository.findAll(pageable);
+//	}
+	
+	
+	
+	
+	//It works with Set as well (Nahm did define List like me ) 
 //	public Set<User> getUsers(){
 //		return (Set<User>) this.userRepository.findAll();
 //	}

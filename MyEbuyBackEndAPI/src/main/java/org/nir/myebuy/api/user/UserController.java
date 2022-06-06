@@ -1,8 +1,5 @@
 package org.nir.myebuy.api.user;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.util.List;
 
 import org.nir.myebuy.api.role.RoleModelAssembler;
@@ -10,9 +7,11 @@ import org.nir.myebuy.api.role.RoleService;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //CHECK THIS CODE - I THINK IT WORKS BEFORE ! where the users stored with List instead of Set!!! 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503"})
 public class UserController {
 	
 	@Autowired
@@ -39,6 +38,7 @@ public class UserController {
 	private UserModelAssembler userModelAssembler;   
 	
 	
+	
 	@Autowired
 	private RoleModelAssembler roleModelAssembler; 
 	
@@ -48,10 +48,31 @@ public class UserController {
 	
 	
 	
+	//GREATE! IT WORKS!!!!!!!!!!!Combine howtodoinjava and Nahm - read the comments on the next 
+	@GetMapping("/users/page/{pageNum}")
+	public ResponseEntity<PagedModel<UserModel>> listByPage(@PathVariable(name="pageNum") Integer pageNum) 
+	{
+		
+		//Get the users entities
+		Page<User> users = this.userService.listByPage(pageNum);
+		
+		//Create the PageModel<UserModel> by usgin the pagedResourcesAssembler that convert the usersEntities to UsersModels
+		PagedModel<UserModel> userModels = this.pagedResourcesAssembler.toModel(users,this.userModelAssembler);
+		
+		
+		return new ResponseEntity<>(userModels, HttpStatus.OK);
+		
+		
+		
+	}
+
+	
+	//IT WORKS!!!
+	//WITHOUT PAGINATION - IT WORKS
 	@GetMapping("/users")
 	public ResponseEntity<CollectionModel<UserModel>> getAllUsers() 
 	{
-		List<User> users = this.userService.getUsers();
+		List<User> users = this.userService.getAllUsers();
 		
 		return new ResponseEntity<> (
 				this.userModelAssembler.toCollectionModel(users),HttpStatus.OK);
@@ -225,9 +246,6 @@ public class UserController {
 	}
 
 
-
-	
-	
 	public Role getRoleById(Integer id)
 	{
 		return this.roleService.getRoleById(id).get() ;
@@ -235,6 +253,7 @@ public class UserController {
 	
 	
 	
+
 
 	
 	//NAHM - why post --
@@ -247,7 +266,7 @@ public class UserController {
 //		return this.userService.isEmailUnique(id,email) ? "OK":"Duplicated";
 //		
 //	}	
-	
+
 		
 	
 }
@@ -263,4 +282,57 @@ public class UserController {
     "roles":[]
 }
  */
+ 
+
+/**
+ * PREVIOUS CODE - HOWTODOINJAVA FOR PAGINGATION
+ * 
+ * 	/**WORKS! 
+	 * With pagination - Howtodoinava - it works  by I want to implement like Nham by passing pageSize and create the pageable in the service
+	 * @param id
+	 * @return
+	 */
+//	@GetMapping("/users")
+//	public ResponseEntity<PagedModel<UserModel>> listByPage(Pageable pageable) 
+//	{
+//		
+//		//Get the users entities
+//		Page<User> users = this.userService.listByPage(pageable);
+//		
+//		//Create the PageModel<UserModel> by usgin the pagedResourcesAssembler that convert the usersEntities to UsersModels
+//		PagedModel<UserModel> userModels = this.pagedResourcesAssembler.toModel(users,this.userModelAssembler);
+//		
+//		
+//		return new ResponseEntity<>(userModels, HttpStatus.OK);
+//		
+//		
+////		PagedModel<UserModel> collModel = this.pagedResourcesAssembler.toModel(users, this.userModelAssembler);
+////		
+////		return new ResponseEntity<PagedModel<UserModel>>(collModel, HttpStatus.OK);
+//		
+//		
+//		
+//	}
+//	@GetMapping("/users")
+//	public ResponseEntity<PagedModel<UserModel>> getAllUsers(Pageable pageable) 
+//	{
+//		
+//		//Get the users entities
+//		Page<User> users = this.userService.listByPage(pageable);
+//		
+//		//Create the PageModel<UserModel> by usgin the pagedResourcesAssembler that convert the usersEntities to UsersModels
+//		PagedModel<UserModel> userModels = this.pagedResourcesAssembler.toModel(users,this.userModelAssembler);
+//		
+//		
+//		return new ResponseEntity<>(userModels, HttpStatus.OK);
+//		
+//		
+////		PagedModel<UserModel> collModel = this.pagedResourcesAssembler.toModel(users, this.userModelAssembler);
+////		
+////		return new ResponseEntity<PagedModel<UserModel>>(collModel, HttpStatus.OK);
+//		
+//		
+//		
+//	}
+
  

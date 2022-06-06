@@ -1,10 +1,13 @@
 package org.nir.myebuy.api.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +19,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 @DataJpaTest
@@ -81,6 +87,59 @@ public class UserRepositoryTests
 		users.stream().forEach(System.out::println);
 	
 	}
+	
+	@Test
+	//@Disabled
+	public void testCreateNewUsersWithRoles()
+	{
+		//ARRANGE
+		//User user1 = User.builder().("chad@gmail.com").password("chad2022").firstName("Chad").lastName("Darby").build();
+//		User user2 = User.builder().email("james@gmail.com").firstName("James").password("james2022").lastName("Levi").build();
+//		User user3 = User.builder().email("kim@gmail.com").firstName("Kim").password("kim2022").lastName("Cohen").build();
+		User user2 = new User("james@gmail.com", "james2022", "James", "Levi"); 
+		User user3 = new User("kim@gmail.com", "kim2022", "Kim", "Cohen"); 
+		User user4 = new User("ramon@gmail.com", "ramon2022", "Ramon", "Katzh"); 
+		
+		Role roleAdmin = new Role(1); 
+		Role roleEditor = new Role(3); 
+		Role roleAssistance = new Role(5); 
+		
+		
+		user4.addRole(roleAssistance);
+		user4.addRole(roleEditor);
+		
+//		user1.addRole(roleAdmin);
+//		user1.addRole(roleEditor);
+		user2.addRole(roleAdmin);
+		user2.addRole(roleAssistance);
+		user3.addRole(roleAssistance);
+		user3.addRole(roleAdmin);
+		user3.addRole(roleEditor);
+		
+		List<User> users = new ArrayList<>(); 
+		users.add(user2);
+		users.add(user3);
+		users.add(user4); 
+		
+		List<User> savedUsers = (List<User>) this.userRepository.saveAll(users); 
+		
+		
+		//ASSERT
+		assertNotNull(savedUsers);
+		assertEquals(savedUsers.size(), users.size(), "original list must have the same size of the saved list");
+		assertIterableEquals(users, savedUsers, "Original List should be as persisted list");
+		
+		
+		System.out.println(">>testCreateNewUsersWithRoles() - the following users were saved :"); 
+		
+		savedUsers.stream().forEach(System.out::println);
+//		User savedUser = this.userRepository.save(ravi); 
+//		
+
+		
+		
+	}
+	
 	
 	//OK
 	@Test
@@ -212,6 +271,30 @@ public class UserRepositoryTests
 		assertThat(actualNumberOfUsersAfterRemoveAll).isEqualTo(expectedNumberOfUsersAfterRemoveAll);
 		
 	}
+	
+	@Test
+	public void testListFirstPage()
+	{
+		//GIVEN
+		Integer pageNum = 0 ; 
+		Integer pageSize = 4; 
+		
+		Pageable pageable = PageRequest.of(pageNum, pageSize); 
+		
+		Page<User> pageUsers  = this.userRepository.findAll(pageable); 
+		
+		//WHEN
+		List<User> listUsers = pageUsers.getContent();
+		
+	
+		//THEN
+		assertEquals(4, listUsers.size()); 
+		
+		
+		System.out.println(">>testListFirstPage() - content of first page:"); 
+		
+		listUsers.stream().forEach(System.out::println);
 
+	}
 
 }

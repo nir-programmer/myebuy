@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //RestController: Indicates the data returned by each method will be written straight into the RESPONSE BODY (instead of rendering a templage)
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503"})
 public class RoleController 
 {
 	
