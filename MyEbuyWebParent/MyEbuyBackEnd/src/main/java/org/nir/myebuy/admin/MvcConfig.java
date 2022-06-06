@@ -28,8 +28,10 @@ public class MvcConfig implements WebMvcConfigurer
 		//Get the absulote path of the folder 
 		String userPhotosPath = userPhotosDir.toFile().getAbsolutePath();
 		
-		//Add a resource handler to the user-phoots and all it's subfolders - will be availbe for the web client(Check for window/UNIX
-		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file://" + userPhotosPath + "//"); 
+		//Add a resource handler to the user-phoots and all it's subfolders will be availbe for the web client(Check for window/UNIX
+//		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + userPhotosPath + "/"); 
+		//FOR UNIX: 
+		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:" + userPhotosPath + "/"); 
 		
 		
 	}
