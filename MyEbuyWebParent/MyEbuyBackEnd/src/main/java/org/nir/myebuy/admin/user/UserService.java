@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService 
 {
-	public static final Integer USERS_PER_PAGE = 4; 
+	public static final Integer USERS_PER_PAGE = 100; 
 	@Autowired
 	private UserRepository userRepository; 
 	
@@ -46,7 +46,7 @@ public class UserService
 	}
 	
 	//AS ALWAYS - FOR SAVING THERE ARE 2 OPTIONS - EDIT OR CREATE NEW!
-	public void save(User user)
+	public User save(User user)
 	{
 		
 		boolean isUpdatingUser = (user.getId() != null);
@@ -75,7 +75,7 @@ public class UserService
 		}
 		
 		//In any case - persist the user
-		this.userRepository.save(user); 
+		return this.userRepository.save(user); 
 	}
 	
 	private void encodePassword(User user)

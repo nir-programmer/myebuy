@@ -1,16 +1,22 @@
 package org.nir.myebuy.admin.user;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.nir.myebuy.admin.FileUploadUtil;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -56,9 +62,7 @@ public class UserController {
 		
 		return "users"; 
 		
-		
-		
-		
+	
 	}
 	
 	@GetMapping("/users/new")
@@ -79,14 +83,52 @@ public class UserController {
 		return "user_form";
 	}
 	
-	//This method will redirect to the to the user list page
+	/**
+	 * This method will redirect to the to the user list page
+	 * To obtain the file Object - I need to specify the argument as RequestParam(comming from the form - after adding the enctype="multipart/"
+	 * @param user
+	 * @param redirectAttributes
+	 * @param name: comming from the form input of type ="file"  with the name="image"
+	 * @return
+	 * @throws IOException 
+	 */
 	@PostMapping("/users/save")
-	public String saveUser(User user, RedirectAttributes redirectAttributes) {
-		//System.out.println(user);
-		//service.save(user);
-		System.out.println("UserContoller: " + user);
+	public String saveUser(User user, RedirectAttributes redirectAttributes, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+	
+		//For testing - read the file name - OK!! 
+		//System.err.println(multipartFile.getOriginalFilename()); 
 		
-		this.service.save(user); 
+		//Check if the user submitted the image file input - check the multipart value 
+		if(!multipartFile.isEmpty())
+		{
+			//Clean the path string
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			
+			//Set the photos property of the User Entity 
+			user.setPhotos(fileName);
+			
+			//Persist the user and get the saved user to get the is and use it store the file in the appropriate folder path
+			User savedUser = this.service.save(user);
+			
+			String uploadDir = "user-photos/" + savedUser.getId();
+			
+			//Clean the folder before upload the photos - otherwise - it will add the photo - instead of replacing - I want one image for each user! 
+			FileUploadUtil.cleanDir(uploadDir);
+			
+			//Upload the file
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			
+		}
+		//The form does not have any file upload
+		else
+		{
+			//If the user has no photos - string is empty  - set his photos property to null
+			//NOTE: the photos property is bound to the form hidden input element : th:field="*{photos}"
+			if(user.getPhotos().isEmpty()) user.setPhotos(null);
+			this.service.save(user); 
+		}
+
+		
 		
 		//To add a message in the view to redirect
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully.");

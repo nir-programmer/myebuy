@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -167,6 +168,31 @@ public class User {
 	{
 		this.roles.add(role); 
 	}
+	
+	//Method to return to the client the name of the folder of the photos - this property is not persisted - it is used only for client
+	@Transient
+	public String getPhotosImagePath() {
+		if (id == null || photos == null) return "/images/default-user.png";
+		
+		//else return the path of the user pohotos on the file system(on the  root folder of the project) 
+		return "/user-photos/" + this.id + "/" + this.photos;
+		//return "/user-photos/" + this.id + "/" + this.photos;
+		//return Constants.S3_BASE_URI + "/user-photos/" + this.id + "/" + this.photos;
+	}
+	
+//		@Transient
+//		public String getPhotosImagePath()
+//		{
+//			System.err.println(">>getPhotosImagePath() - transient - this.photos = " + this.photos); 
+//			//If no user id or no photos - return path of the default image from the static folder
+//			if(this.id == null || this.photos == null)
+//			{
+//				return "/images/default-user.png"; 
+//			}
+//			
+//			//else return the path of the user pohotos on the file system(on the  root folder of the project) 
+//			return "/user-photos/" + this.id + "/" + this.photos;
+//		}
 
 //	public Integer getId() {
 //		return id;

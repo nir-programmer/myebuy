@@ -17,7 +17,7 @@
 	<div>
 		<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
 			<a class="navbar-brand" th:href="@{/}">
-				<img th:src="@{/images/ShopmeAdminSmall.png}" />
+				<img th:src="@{/images/MyEbuyAdminSmall.png}" style="width:80px;height:80px;" />
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -66,9 +66,15 @@
 		<h2>Manage Users | [[${pageTitle}]] User</h2>	
 	</div>
 	
-	<!--  Enable the submition of the form depends on the return value of the checkEmailUnique(this) JS function at the bottom -->
+	<!-- 
+	 -Enable the submition of the form depends on the return value of the checkEmailUnique(this) JS function at the bottom 
+	 -Add the enctype="multipart/form-data" -  attribure to allow uploading the image file to the server
+	 - on the input of the fileImage - set the name for the server will be able 
+	 to read the value of the form - using the RequestParam
+	 
+	 -->
 	<form  onsubmit="return checkEmailUnique(this);" th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto"
-		th:object="${user}"  >
+		th:object="${user}"  enctype="multipart/form-data" >
 		<!-- for the ajax call in edit mode: I need to have the hidden input for the user id  -->
 		<input type="hidden" th:field="*{id}" id="id" />
 	<div class="border border-secondary rounded p-3">
@@ -123,6 +129,17 @@
 			<div class="col-sm-8">
 				<input type="checkbox" th:field="*{enabled}" />
 			</div>
+		</div>		
+		
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label">Photos:</label>
+			<div class="col-sm-8">
+			<!-- The UserController will be read the value of this input by using the name attribute  -->
+				<input type="hidden" th:field="*{photos}" />
+				<input type="file" id="fileImage" accept="image/png, image/jpeg" class="mb-2" name="image" />
+				<img id="thumbnail" style="width:80px;height:80px;" alt="Photos preview"  class="img-fulid"
+				 th:src="@{${user.photosImagePath}}" />
+			</div>
 		</div>			
 				
 		<div class="text-center">
@@ -163,7 +180,51 @@
 		$("#buttonCancel").on("click", function() {
 			window.location = "[[@{/users}]]";
 		});
+		
+		//File Upload - handle the 'change' event of the input element with the fileImage id
+		$("#fileImage").change(function(){
+			//this = the input element on which the click event is triggered
+			//Get the size of the file : according to the requirement must be < 1MG
+			const fileSize = this.files[0].size; 
+			//alert(fileSize);
+			
+			if(fileSize > 1048576)
+			{
+				//Set the the attribute of the the fileImage : customValidity
+				this.setCustomValidity("You must chose an image less than 1MB!");
+			
+				//Prevent the browser from the Form to be submitted to the server 
+				this.reportValidity(); 
+			}
+			else
+			{
+				this.setCustomValidity("");
+				showImageThumbnail(this)
+				
+			}
+		});
 	});
+	
+	
+	
+	function showImageThumbnail(fileInput)
+	{
+		//Select the first file obejct from the the files[] array 
+		const file = fileInput.files[0];
+		
+		//Declare a reader 
+		const reader =  new FileReader(); 
+		
+		//set a handler function on the onload event of the reader 
+		reader.onload = function(e){
+		//Select the src attribute of the  thumbnail image and set it's value to the e.target.result
+		$("#thumbnail").attr("src", e.target.result);
+		};
+		
+		//call the reader.readAdDataURL
+		reader.readAsDataURL(file);
+		
+	}
 	
 	
  
