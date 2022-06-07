@@ -1,6 +1,7 @@
 package org.nir.myebuy.admin.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tomcat.util.http.fileupload.FileUpload;
@@ -53,11 +54,18 @@ public class UserController {
 			endCount = page.getTotalElements(); 
 			
 		
+		
 		//UPDATE THE MODEL
+		//For testing the case when the list is empty and total items = 0 - should display the "No users found in the pagingaiton section"
+//		model.addAttribute("listUsers", new ArrayList<>());
+//		model.addAttribute("totalItems",0);
+		
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("listUsers", listUsers);
+		model.addAttribute("totalItems",page.getTotalElements());
 		model.addAttribute("startCount", startCount); 
 		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems",page.getTotalElements());
 	
 		
 		return "users"; 

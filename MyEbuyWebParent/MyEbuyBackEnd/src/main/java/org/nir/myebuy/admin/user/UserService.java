@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService 
 {
-	public static final Integer USERS_PER_PAGE = 100; 
+	public static final Integer USERS_PER_PAGE = 4; 
 	@Autowired
 	private UserRepository userRepository; 
 	

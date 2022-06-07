@@ -1,4 +1,4 @@
-package org.nir.myebuy.admin.user;
+package org.nir.myebuy.admin.user.repository;
 
 
 import static org.assertj.core.api.Assertions.*; 
@@ -16,6 +16,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.nir.myebuy.admin.user.UserRepository;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

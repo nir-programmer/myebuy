@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //CHECK THIS CODE - I THINK IT WORKS BEFORE ! where the users stored with List instead of Set!!! 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503","http://localhost:1234"})
 public class UserController {
 	
 	@Autowired

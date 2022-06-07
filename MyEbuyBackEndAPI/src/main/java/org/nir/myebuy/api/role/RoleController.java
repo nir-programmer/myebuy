@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+//Correct(for parcel): http://localhost:1234  - in correct(for parcel) http://127.0.0.1:1234
 //RestController: Indicates the data returned by each method will be written straight into the RESPONSE BODY (instead of rendering a templage)
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:5501", "http://127.0.0.1:5503", "http://localhost:1234"})
 public class RoleController 
 {
 	
