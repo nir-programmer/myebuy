@@ -1,6 +1,10 @@
 package org.nir.myebuy.admin.user;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,8 +34,16 @@ public class UserServiceUnitTest {
 	@MockBean
 	private UserRepository userRepository; 
 	
+	@MockBean
+	private Sort sort;
+	
+	@MockBean
+	private Pageable pageable;
+	
 	@InjectMocks
 	private UserService userService;
+	
+	
 	
 	
 	@BeforeEach
@@ -64,6 +80,8 @@ public class UserServiceUnitTest {
 	{
 		assertAll("should inject repo into service", 
 				() ->assertNotNull(this.userRepository),
+				() ->assertNotNull(this.sort),
+				() ->assertNotNull(this.pageable),
 				() ->assertNotNull(this.userService));
 	}
 	
@@ -160,5 +178,35 @@ public class UserServiceUnitTest {
 			System.out.println(">>testGetEmail - email from the service(converted to lower case): " + actualEmail);
 			
 		}
+		
+		/*
+		 * public Page<User> listByPage(Integer pageNum, String sortField, String sortDir)
+	{
+		//Create a Sort object 
+		Sort  sort = Sort.by(sortField); 
+		
+		//Configure the sort direction based on the sortDir paramter
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
+		//Create Pageable of size 
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort); 
+		
+		return this.userRepository.findAll(pageable);
+	}
+		 */
+		@DisplayName("Test listByPage With Sorting")
+		@Test
+		public void testListByPageWithSorting()
+		{
+			//GIVEN
+			
+			
+			//WHEN
+			
+			
+			
+		}
+		
+		
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +35,16 @@ public class UserService
 	
 	
 	//Note: the page number is 0 based - but the client will pass 1,2,3...
-	public Page<User> listByPage(Integer pageNum)
+	public Page<User> listByPage(Integer pageNum, String sortField, String sortDir)
 	{
+		//Create a Sort object 
+		Sort  sort = Sort.by(sortField); 
+		
+		//Configure the sort direction based on the sortDir paramter
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
 		//Create Pageable of size 
-		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE); 
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort); 
 		
 		return this.userRepository.findAll(pageable);
 	}

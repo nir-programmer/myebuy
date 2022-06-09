@@ -26,17 +26,22 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	//Default URL
 	@GetMapping("/users")
 	public String listFirstPage(Model model) {
-		
-		return this.listByPage(1, model);
+		//firstName is the name of the Entity property - not in the DB
+		return this.listByPage(1, model, "firstName", "asc");
 	}
 	
+	//DOES THE QUERY PARAMS ARE REQUIRED TO PASS IN THE URL?? whay I can not pass just users/page/2 ? without these parameters?
 	//PAGINATION//WORKS
 	@GetMapping("/users/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") Integer pageNum ,Model model)
+	public String listByPage(@PathVariable(name = "pageNum") Integer pageNum ,Model model,
+							@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir
+			)
 	{
-		Page<User> page =  this.service.listByPage(pageNum);
+		System.err.println("sortField: " + sortField + " ,sortDir: " + sortDir);
+		Page<User> page =  this.service.listByPage(pageNum, sortField, sortDir);
 		
 		List<User> listUsers = page.getContent();
 		
@@ -60,12 +65,19 @@ public class UserController {
 //		model.addAttribute("listUsers", new ArrayList<>());
 //		model.addAttribute("totalItems",0);
 		
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		System.err.println(reverseSortDir);
+		
+		
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("totalItems",page.getTotalElements());
 		model.addAttribute("startCount", startCount); 
 		model.addAttribute("endCount", endCount);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir); 
+		model.addAttribute("reverseSortDir", reverseSortDir);
 	
 		
 		return "users"; 

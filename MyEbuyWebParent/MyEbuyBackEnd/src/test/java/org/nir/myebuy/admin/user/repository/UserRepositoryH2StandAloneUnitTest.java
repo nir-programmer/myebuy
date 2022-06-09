@@ -131,12 +131,12 @@ public class UserRepositoryH2StandAloneUnitTest
 		//THEN
 		assertNotNull(savedUser);
 		assertEquals(2, this.userRepository.count());
-		
-		List<User> users = (List<User>) this.userRepository.findAll();
-		
-		System.out.println(">>testCreateNewUser() - list of users after creating a user:"); 
-		
-		users.stream().forEach(System.out::println);
+//		
+//		List<User> users = (List<User>) this.userRepository.findAll();
+//		
+//		System.out.println(">>testCreateNewUser() - list of users after creating a user:"); 
+//		
+//		users.stream().forEach(System.out::println);
 			
 	}
 	
