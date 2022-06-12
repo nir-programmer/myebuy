@@ -3,8 +3,10 @@ package org.nir.myebuy.admin.user.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +20,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 
@@ -57,6 +62,22 @@ public class UserRepositoryH2StandAloneUnitTest
 		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "
 											+ "values ('Eric', 'Roby', 'eric.roby@gmail.com', true, 'superduper100')");
 		
+		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "
+				+ "values ('Nir', 'Ithzak', 'nir@gmail.com', true, 'superduper1010')");
+		
+		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "
+				+ "values ('Niron', 'Ithzak', 'nirony@gmail.com', true, 'superduper1')");
+		
+		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "
+				+ "values ('Shalom', 'Ithzak', 'shalom@gmail.com', true, 'superduper10')");
+		
+		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "	
+				+ "values ('XXXXX', 'YYYY', 'xxxxxx@gmail.com', false, 'superduper100')");
+		
+		this.jdbcTemplate.execute("insert into users(first_name, last_name, email,enabled,password ) "
+				+ "values ('Chad', 'Darby', 'chad@gmail.com', true, 'superduper1000000')");
+		
+		
 	}
 	
 	@AfterEach
@@ -86,7 +107,7 @@ public class UserRepositoryH2StandAloneUnitTest
 	public void testFindAll()
 	{
 		//GIVEN
-		Integer expectedNumberOfUsers = 1; 
+		Integer expectedNumberOfUsers = 6; 
 		List<User> users = new ArrayList<>();
 		
 		//WHEN
@@ -107,7 +128,7 @@ public class UserRepositoryH2StandAloneUnitTest
 	public void testCount()
 	{
 		//GIVEN
-		long expectedCount = 1; 
+		long expectedCount = 6; 
 		
 		//WHEN
 		long actualCount = this.userRepository.count();
@@ -123,14 +144,14 @@ public class UserRepositoryH2StandAloneUnitTest
 		//GIVEN
 		//assertEquals(this., null);
 		User user = new User("niritzhak10@gmail.com","superduper100",  "Nir", "Ithzak" );
-		assertEquals(1, this.userRepository.count());
+		assertEquals(6, this.userRepository.count());
 		
 		//WHEN
 		User savedUser = this.userRepository.save(user); 
 		
 		//THEN
 		assertNotNull(savedUser);
-		assertEquals(2, this.userRepository.count());
+		assertEquals(7, this.userRepository.count());
 //		
 //		List<User> users = (List<User>) this.userRepository.findAll();
 //		
@@ -141,6 +162,67 @@ public class UserRepositoryH2StandAloneUnitTest
 	}
 	
 	
+	//Should I mock the Pageable ??? 
+	@DisplayName("Test listFirstPage()")
+	@Test
+	public void testListFirstPage()
+	{
+		//GIVEN
+		int pageNumber = 0 ; 
+		int pageSize = 4; 
+		
+		assertEquals(6, ((Collection<User>)this.userRepository.findAll()).size());
+		
+		Pageable pageable = PageRequest.of(pageNumber, pageSize); 
+		
+		//WHEN
+		Page<User> page = this.userRepository.findAll(pageable); 
+		
+		
+		//THEN
+		List<User> users = page.getContent();
+		assertEquals(users.size(), pageSize);
+		
+		
+		
+		users.forEach(System.out::println);
+		
+		
+	}
+	
+	
+	
+	//MySQL: mysql> SELECT * FROM users WHERE first_name LIKE '%bruce%';
+	@DisplayName("Test SearchUsers()")
+	@Test
+	public void testSearchUsersFound()
+	{
+		//GIVEN
+		String keyword = "Nir"; 
+		
+		
+		int pageSize = 4; 
+		int pageNumber = 0; 
+		Pageable pageable = PageRequest.of(pageNumber, pageSize); 
+	
+		
+		//WHEN
+		Page<User> page = this.userRepository.findAll(keyword,pageable);
+		
+		
+		//WHEN
+		List<User> users = page.getContent();  
+		
+		//OK - I HAVE IN THE LIST FIRST ANME: Nir, Niron
+		assertNotNull(users);
+		assertTrue(users.size() > 0 );
+		
+		users.forEach(System.out::println);
+
+	
+	}
+//	
+//	
 	
 	
 	
