@@ -48,6 +48,15 @@ public class UserController {
 	
 	
 	
+	//I ADD THIS CODE 
+	@GetMapping("/users")
+	public ResponseEntity<PagedModel<UserModel>> listFirstPage()
+	{
+		
+		return this.listByPage(1);
+		
+	}
+	
 	//GREATE! IT WORKS!!!!!!!!!!!Combine howtodoinjava and Nahm - read the comments on the next 
 	@GetMapping("/users/page/{pageNum}")
 	public ResponseEntity<PagedModel<UserModel>> listByPage(@PathVariable(name="pageNum") Integer pageNum) 
@@ -63,22 +72,20 @@ public class UserController {
 		return new ResponseEntity<>(userModels, HttpStatus.OK);
 		
 		
-		
 	}
 
 	
 	//IT WORKS!!!
 	//WITHOUT PAGINATION - IT WORKS
-	@GetMapping("/users")
-	public ResponseEntity<CollectionModel<UserModel>> getAllUsers() 
-	{
-		List<User> users = this.userService.getAllUsers();
-		
-		return new ResponseEntity<> (
-				this.userModelAssembler.toCollectionModel(users),HttpStatus.OK);
-		
-	}
-
+	/*
+	 * @GetMapping("/users") public ResponseEntity<CollectionModel<UserModel>>
+	 * getAllUsers() { List<User> users = this.userService.getAllUsers();
+	 * 
+	 * return new ResponseEntity<> (
+	 * this.userModelAssembler.toCollectionModel(users),HttpStatus.OK);
+	 * 
+	 * }
+	 */
 		
 	//CAN NOT GET THE PARENT LINK!!
 	//Step 3 for handling errors using REST!!! 
