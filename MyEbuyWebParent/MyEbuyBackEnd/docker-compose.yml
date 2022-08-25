@@ -1,0 +1,20 @@
+version: "3.3"
+services: 
+  server:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: "mysql:8"
+    restart: always
+    ports: 
+      - 3307:3306
+    environment: 
+      MYSQL_DATABASE: myebuy_db
+      MYSQL_USER: nir
+      MYSQLPASSWORD: superduper100
+      MYSQL_ROOT_PASSWORD: superduper100
+      

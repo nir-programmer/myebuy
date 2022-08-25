@@ -187,5 +187,11 @@ public class UserService
 	}
 
 
+	//My Overload
+	public Page<User> listByPage(Pageable pageable) {
+		return this.userRepository.findAll(pageable);
+	}
+
+
 
 }

@@ -48,30 +48,21 @@ public class UserService
 		}
 
 		return this.userRepository.findAll(pageable);
-//		System.err.println("Service: keyword = " + keyword);
-//		//Create a Sort object 
-//		Sort  sort = Sort.by(sortField); 
-//		
-//		//Configure the sort direction based on the sortDir paramter
-//		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-//		
-//		//Create Pageable of size 
-//		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort); 
-//		
-//		//Check if the keyword is not null 
-//		if(keyword != null)
-//		{
-//			System.err.println("Service: keyword = " + keyword + "not null - going to call the repo.findAll(keyword, pagable)");
-//			Page<User> page = this.userRepository.findAll(keyword, pageable); 
-//			List<User> users = page.getContent();
-//			System.out.println("List of users with keyword: " + keyword);
-//			users.forEach(System.out::println);
-////			return this.userRepository.findAll(keyword, pageable);
-//			return page;
-			
-		
-		
+	}
+	
+	
+	//ONLY WITH PAGING - no sortint and filtering
+	public Page<User> listByPage(Integer pageNum)
+	{
 
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE);
+
+		Page<User> page = this.userRepository.findAll(pageable);
+		
+		System.err.println(">>listByPage(pageNum): page content for pageNum:"  +pageNum  );
+		System.err.println(page.getContent());
+		
+		return this.userRepository.findAll(pageable);
 	}
 	public List<Role> listRoles(){
 		return (List<Role>) this.roleRepository.findAll();

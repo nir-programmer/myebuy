@@ -1,16 +1,14 @@
 package org.nir.myebuy.api.user;
 
-import java.util.List;
-
 import org.nir.myebuy.api.role.RoleModelAssembler;
 import org.nir.myebuy.api.role.RoleService;
 import org.nir.myebuy.common.entity.Role;
 import org.nir.myebuy.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -259,8 +257,52 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * Pagination: 
+	 * 
+	 * @GetMapping("/api/albums-list")
+			public ResponseEntity<PagedModel<AlbumModel>> getAllAlbums(Pageable pageable) 
+			{
+				Page<AlbumEntity> albumEntities = albumRepository.findAll(pageable);
+				
+				PagedModel<AlbumModel> collModel = pagedResourcesAssembler
+									.toModel(albumEntities, albumModelAssembler);
+				
+				return new ResponseEntity<>(collModel,HttpStatus.OK);
+			}
+			 * 
+			 */
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WORKS!! OVERLOAD THIS METHOD TO MATCH WITH THE SERVICE
+//HOWTODOINJAVA: CHECK THIS ENDPOINT
+//http://localhost:8083/MyEbuyAdminAPI/api/users-list?page=1&size=3&sort=id,asc
+	@GetMapping("/users-list")
+	public ResponseEntity<PagedModel<UserModel>> getAllUsers(Pageable pageable)
+	{
+		Page<User> userEntitites = this.userService.listByPage(pageable);
+		
+		PagedModel<UserModel> collModel  = pagedResourcesAssembler.toModel(userEntitites ,userModelAssembler);
+		
+		return new ResponseEntity<>(collModel, HttpStatus.OK);
+		
+	}
 	
-
+	/*
+	 * @GetMapping("/users-list/page/{pageNumber}") public
+	 * ResponseEntity<PagedModel<UserModel>> getAllUsers(@PathVariable("pageNumber")
+	 * int pageNumber) { //Pageable pageable = PageRequest.of(pageNumber,
+	 * pageNumber);
+	 * 
+	 * Page<User> userEntitites = this.userService.listByPage(pageNumber);
+	 * 
+	 * PagedModel<UserModel> collModel =
+	 * pagedResourcesAssembler.toModel(userEntitites ,userModelAssembler);
+	 * 
+	 * return new ResponseEntity<>(collModel, HttpStatus.OK);
+	 * 
+	 * }
+	 */
+	
+	
 
 	
 	//NAHM - why post --
