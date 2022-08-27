@@ -20,6 +20,7 @@ import org.springframework.test.annotation.Rollback;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 //To update the real db
 @Rollback(false)
+@Disabled
 public class RoleRepositoryTests 
 {
 	@Autowired

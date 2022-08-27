@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.nir.myebuy.api.role.RoleController;
 import org.nir.myebuy.api.role.RoleModelAssembler;
@@ -26,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+@Disabled
 @WebMvcTest(RoleController.class)
 public class RestRolesTests {
 	private static String baseUrl = "http://localhost:8083/MyEbuyAdminAPI/api/roles";

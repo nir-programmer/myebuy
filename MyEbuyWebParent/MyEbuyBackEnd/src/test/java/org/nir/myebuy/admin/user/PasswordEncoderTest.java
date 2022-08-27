@@ -2,12 +2,13 @@ package org.nir.myebuy.admin.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
+@Disabled
 public class PasswordEncoderTest 
 {
 	@DisplayName("WHEN TEST ENCODE PASSWORD SUCCESS")

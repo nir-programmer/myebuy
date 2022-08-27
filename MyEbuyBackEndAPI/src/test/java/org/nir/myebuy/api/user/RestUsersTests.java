@@ -18,6 +18,7 @@ import java.util.List;
 //import org.springframework.http.HttpMethod;
 //import org.springframework.http.ResponseEntity;
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.nir.myebuy.api.role.RoleRepository;
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-
+@Disabled
 @WebMvcTest(UserController.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RestUsersTests 

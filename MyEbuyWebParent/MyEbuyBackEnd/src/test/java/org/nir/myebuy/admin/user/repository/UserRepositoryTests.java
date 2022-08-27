@@ -66,7 +66,6 @@ public class UserRepositoryTests
 		assertThat(savedUser.getId()).isEqualTo(1);
 		assertThat(savedUser.getFirstName()).isEqualTo("Nir");
 		
-		
 	}
 	
 	@Test

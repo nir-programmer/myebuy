@@ -10,6 +10,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.nir.myebuy.api.user.RestUsersTests;
 import org.nir.myebuy.api.user.response.GetUsersResponse;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //@SpringBootTest
+@Disabled
 public class ObjectMapperTests {
 	
 

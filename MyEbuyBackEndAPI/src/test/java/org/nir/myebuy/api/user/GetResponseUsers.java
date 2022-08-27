@@ -1,5 +1,6 @@
 package org.nir.myebuy.api.user;
 
+import org.junit.jupiter.api.Disabled;
 import org.nir.myebuy.common.entity.User;
 
 /**
@@ -32,6 +33,7 @@ import org.nir.myebuy.common.entity.User;
  * @author nir
  *
  */
+@Disabled
 public class GetResponseUsers {
 	//private Object _embedded = 
 

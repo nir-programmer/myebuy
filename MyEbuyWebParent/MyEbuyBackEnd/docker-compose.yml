@@ -8,12 +8,12 @@ services:
     depends_on:
       - mysqldb
   mysqldb:
-    image: "mysql:8"
-    restart: always
+    image: "mysql:5.7"
+    restart: on-failure
     ports: 
       - 3307:3306
     environment: 
-      MYSQL_DATABASE: myebuy_db
+      MYSQL_DATABASE: myebuydb
       MYSQL_USER: nir
       MYSQLPASSWORD: superduper100
       MYSQL_ROOT_PASSWORD: superduper100

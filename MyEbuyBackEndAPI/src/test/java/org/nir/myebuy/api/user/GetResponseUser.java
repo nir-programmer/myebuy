@@ -1,9 +1,11 @@
 package org.nir.myebuy.api.user;
 
+import org.junit.jupiter.api.Disabled;
 import org.nir.myebuy.api.user.response.UserEmbedded;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Disabled
 public class GetResponseUser{
     @JsonProperty("_embedded")
     private UserEmbedded embedded;

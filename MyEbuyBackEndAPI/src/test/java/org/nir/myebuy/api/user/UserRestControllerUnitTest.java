@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 //CHECK FOR SECURITY??
+@Disabled
 @WebMvcTest(UserController.class)
 public class UserRestControllerUnitTest {
 

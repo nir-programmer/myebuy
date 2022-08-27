@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.nir.myebuy.api.role.response.GetResponseRoles;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(RoleController.class)
+@Disabled
 public class RoleControllerTests {
 	
 	private static String ROLES_ENDPOINT = "/roles";

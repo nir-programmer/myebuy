@@ -29,7 +29,7 @@ import org.springframework.test.annotation.Rollback;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 //To update the real db
 @Rollback(false)
-//@Disabled
+@Disabled
 public class UserRepositoryTests 
 {
 	@Autowired
